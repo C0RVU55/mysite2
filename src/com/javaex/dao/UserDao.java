@@ -93,4 +93,122 @@ public class UserDao {
 		
 		return count;
 	}
+	
+	//로그인(로그인폼에서 받은 아이디 비번이 DB 안에 있는 데이터와 맞는지 비교)
+	public UserVo getUser(String id, String pw) {
+		
+		UserVo uVo = null;
+		
+		getConnection();
+		
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = "";
+			query += " SELECT  no, "; //세션이 사라질 위험이 있기 때문에 일부러 최소한의 컬럼만 가져오기로 함
+			query += "         name ";
+			query += " FROM users ";
+			query += " where id = ? ";
+			query += " and password = ? ";
+			
+			pstmt = conn.prepareStatement(query); //쿼리로 만들기 (쿼리로 번역)
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+
+			rs = pstmt.executeQuery(); //쿼리문 실행 (select니까 rs)
+
+			// 4.결과처리
+			while(rs.next()) {
+				int no = rs.getInt("no");
+				String name = rs.getString("name");
+				
+				uVo = new UserVo(no, name);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+		
+		return uVo;
+	}
+	
+	public UserVo getAllUserInfo(int num) {
+		UserVo uVo = null;
+		
+		getConnection();
+		
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = "";
+			query += " SELECT  no, "; 
+			query += "         id, ";
+			query += "         password, ";
+			query += "         name, ";
+			query += "         gender ";
+			query += " FROM users ";
+			query += " where no = ? ";
+			
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setInt(1, num);
+
+			rs = pstmt.executeQuery();
+
+			// 4.결과처리
+			while(rs.next()) {
+				int no = rs.getInt("no");
+				String id = rs.getString("id");
+				String password = rs.getString("password");
+				String name = rs.getString("name");
+				String gender = rs.getString("gender");
+				
+				uVo = new UserVo(no, id, password, name, gender);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+		
+		return uVo;
+	}
+	
+	public int modify(UserVo uVo) {
+		getConnection();
+		
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = "";
+			query += " update users "; 
+			query += " set id = ?, ";
+			query += "     password = ?, ";
+			query += "     name = ?, ";
+			query += "     gender = ? ";
+			query += " where no = ? ";
+			
+			pstmt = conn.prepareStatement(query); //쿼리로 만들기
+			
+			pstmt.setString(1, uVo.getId());
+			pstmt.setString(2, uVo.getPassword());
+			pstmt.setString(3, uVo.getName());
+			pstmt.setString(4, uVo.getGender());
+			pstmt.setInt(5, uVo.getNo());
+
+			count = pstmt.executeUpdate(); //쿼리문 실행
+
+			// 4.결과처리
+			System.out.println("insert 회원정보" + count + "건 수정");
+
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+		
+		return count;
+	}
 }

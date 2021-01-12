@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%@ page import= "com.javaex.vo.UserVo" %>
+
+<%
+	//로그인(세션에 데이터 유무) 체크를 위해 세션값 받아서 if문 넣어줌
+	//HttpSession session = request.getSesstion(); --> 컨트롤러에서 사용된 거라 다시 선언 불가
+	
+	//Object로 들어오니까 형변환
+	UserVo authUser = (UserVo)session.getAttribute("authUser");
+	
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,18 +27,21 @@
 		<div id="header">
 			<h1><a href="/mysite2/main">MySite</a></h1>
 			
-			
+			<!-- 로그인 -->
+			<%if (authUser == null) {%>
 			<ul>
 				<li><a href="/mysite2/user?action=loginForm">로그인</a></li>
 				<li><a href="/mysite2/user?action=joinForm">회원가입</a></li>
 			</ul>
-			<!--
+			<%} else { %>
+			<!--로그인 성공시-->
 			<ul>
-				<li>황일영 님 안녕하세요^^</li>
-				<li><a href="">로그아웃</a></li>
-				<li><a href="">회원정보수정</a></li>
+				<li><%=authUser.getName() %> 님 안녕하세요^^</li>
+				<li><a href="/mysite2/user?action=logout">로그아웃</a></li>
+				<li><a href="/mysite2/user?action=mform">회원정보수정</a></li>
 			</ul>
-			-->
+			
+			<%} %>
 		</div>
 		<!-- //header -->
 

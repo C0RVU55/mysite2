@@ -28,3 +28,22 @@ rollback;
 SELECT
     *
 FROM users;
+
+--로그인 메소드 만들기 (아이디, 비번 동시에 만족하도록 and)
+SELECT  no,
+        id,
+        password,
+        name,
+        gender
+FROM users
+where id = 'aaa'
+and password = '1234';
+
+--수정
+update users
+set id = 'aa',
+    password = '22',
+    name = '테스틑',
+    gender = 'F'
+where no = 1;
+    

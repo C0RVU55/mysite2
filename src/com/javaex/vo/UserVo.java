@@ -28,6 +28,11 @@ public class UserVo {
 		this.name = name;
 		this.gender = gender;
 	}
+	
+	public UserVo(int no, String name) {
+		this.no = no;
+		this.name = name;
+	}
 
 	// 메소드 겟셋
 	public int getNo() {
