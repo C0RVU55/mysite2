@@ -29,6 +29,13 @@ public class UserVo {
 		this.gender = gender;
 	}
 	
+	public UserVo(int no, String password, String name, String gender) {
+		this.no = no;
+		this.password = password;
+		this.name = name;
+		this.gender = gender;
+	}
+	
 	public UserVo(int no, String name) {
 		this.no = no;
 		this.name = name;

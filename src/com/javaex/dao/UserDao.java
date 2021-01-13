@@ -134,7 +134,8 @@ public class UserDao {
 		return uVo;
 	}
 	
-	public UserVo getAllUserInfo(int num) {
+	// 한 회원 정보 가져오기
+	public UserVo getUser(int num) { //getAllUserInfo() 따로 만들 필요없이 로그인용 메소드로 오버로딩시킴
 		UserVo uVo = null;
 		
 		getConnection();

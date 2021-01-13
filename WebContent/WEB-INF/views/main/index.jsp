@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ page import= "com.javaex.vo.UserVo" %>
-
-<%
+<%--
 	//로그인(세션에 데이터 유무) 체크를 위해 세션값 받아서 if문 넣어줌
 	//HttpSession session = request.getSesstion(); --> 컨트롤러에서 사용된 거라 다시 선언 불가
 	
 	//Object로 들어오니까 형변환
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
+	//UserVo authUser = (UserVo)session.getAttribute("authUser");
+	// --> <jsp:include><jsp:include> 공통되는 코드를 묶어서 jsp파일로 따로 뺌 --> header+navi, footer 옮김. 
 	
-%>
+--%>
 
 <!DOCTYPE html>
 <html>
@@ -24,37 +23,9 @@
 <body>
 	<div id="wrap">
 
-		<div id="header">
-			<h1><a href="/mysite2/main">MySite</a></h1>
-			
-			<!-- 로그인 -->
-			<%if (authUser == null) {%>
-			<ul>
-				<li><a href="/mysite2/user?action=loginForm">로그인</a></li>
-				<li><a href="/mysite2/user?action=joinForm">회원가입</a></li>
-			</ul>
-			<%} else { %>
-			<!--로그인 성공시-->
-			<ul>
-				<li><%=authUser.getName() %> 님 안녕하세요^^</li>
-				<li><a href="/mysite2/user?action=logout">로그아웃</a></li>
-				<li><a href="/mysite2/user?action=mform">회원정보수정</a></li>
-			</ul>
-			
-			<%} %>
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul>
-				<li><a href="/mysite2/gbc?action=addList">방명록</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">입사지원서</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-		<!-- //nav -->
+	<%-- header + navi 공통으로 옮기고 <jsp:include>태그로 불러옴. 경로는 파일 경로고 다른 jsp 조합 가능 (html 주석으로 다니까 무슨 아파치 오류남)--%>
+	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+	
 
 		<!-- aside없음 -->
 
@@ -96,10 +67,8 @@
 		<!-- //full-content -->
 		<div class="clear"></div>
 		
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
-		<!-- //footer -->
+		<!-- footer -->
+		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 
 	</div>
 	<!-- //wrap -->

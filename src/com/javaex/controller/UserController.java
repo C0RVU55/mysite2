@@ -23,10 +23,7 @@ public class UserController extends HttpServlet {
 		System.out.println("action="+action);
 		
 		
-		///////////////////////////////////////////
-		// 회원정보 수정할 때 성별 정해 놓는 거 못함 --> 완료
-		// post 테스트 안 해 봄 --> post 한글 깨짐
-		///////////////////////////////////////////
+		// 오류 : post 한글 깨짐
 		
 		
 		if ("joinForm".equals(action)) {
@@ -87,8 +84,8 @@ public class UserController extends HttpServlet {
 			if(authVo == null) { //로그인 실패
 				System.out.println("로그인 실패");
 				
-				//리다이렉트 --> 로그인폼
-				WebUtil.redirect(request, response, "/mysite2/user?action=loginForm");
+				//리다이렉트 --> 로그인폼 (***실패시 문구 추가를 위해 result값 추가***)
+				WebUtil.redirect(request, response, "/mysite2/user?action=loginForm&result=fail"); 
 				
 			} else { 	//로그인 성공일 때 세션 만들기
 				System.out.println("로그인 성공");
@@ -114,7 +111,9 @@ public class UserController extends HttpServlet {
 			WebUtil.redirect(request, response, "/mysite2/main");
 			
 		} else if ("mform".equals(action)) {
-			//System.out.println("회원정보수정");
+			//System.out.println("회원정보수정 폼");
+			
+			/* 이거 하니까 로그인한 이력이 없으면 세션이 아예 없는 거라? 오류남
 			
 			//세션 request.getSession(false) --> 현재 세션 있으면 기존 세션을, 없으면 null을 return 
 			HttpSession session = request.getSession(false);
@@ -129,36 +128,53 @@ public class UserController extends HttpServlet {
 				
 				//세션에서 받은 UserVo의 no로 회원의 모든 정보를 가져온 후 (getAllUserInfo() 메소드 만들어야 됨)
 				UserDao uDao = new UserDao();
-				UserVo uVo = uDao.getAllUserInfo(authUser.getNo());
+				UserVo uVo = uDao.getUser(authUser.getNo());
 				
 				//회원정보(UserVo)를 attribute
 				request.setAttribute("authUserVo", uVo);
-				
-				//포워드 --> modifyForm.jsp
-				WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 			}
+			*/
+			
+			//세션의 no
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			
+			//로그인 안 한 상태면 못 가져옴(오류남)
+			int no = authUser.getNo();
+			
+			//dao getUser() (로그인용 회원정보 가져오기)
+			UserDao uDao = new UserDao();
+			UserVo uVo = uDao.getUser(no);
+			
+			//회원정보 attribute
+			request.setAttribute("uVo", uVo);
+				
+			//포워드 --> modifyForm.jsp
+			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
+			
 
 		} else if ("modify".equals(action)) {
 			//System.out.println("수정");
 			
-			//파라미터
-			int no = Integer.parseInt(request.getParameter("no"));
-			String id = request.getParameter("id");
+			//파라미터 (수정되는 값만 가져옴)
 			String password = request.getParameter("pw");
 			String name = request.getParameter("name");
 			String gender = request.getParameter("gender");
 			
-			//vo --> dao
-			UserVo uVo = new UserVo(no, id, password, name, gender);
+			//세션 가져와서 no 받기
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			int no = authUser.getNo();
+			
+			//세션의 no와 파라미터로 받은 값으로 UserVo 만듦 (맞는 생성자 만들기) --> dao modify()
+			UserVo uVo = new UserVo(no, password, name, gender);
 			UserDao uDao = new UserDao();
 			uDao.modify(uVo);
 			
-			//session 정보 갱신 (세션 새로 선언?) 
-			//(수정한 UserVo를 세션용 UserVo에 넣고 세션 다시 불러와서 바뀐 UserVo를 setAttribute함)
-			UserVo mUserVo = uDao.getUser(uVo.getId(), uVo.getPassword());
+			//session 정보 갱신 --> 세션에서 name값만 변경
+			authUser.setName(name);
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("authUser", mUserVo);
+			//(수정한 UserVo를 세션용 UserVo에 넣고 세션 다시 불러와서 바뀐 UserVo를 setAttribute함) --> 원래 이랬는데 순서가 바뀜
 			
 			//리다이렉트 --> main
 			WebUtil.redirect(request, response, "/mysite2/main");	
