@@ -3,6 +3,8 @@
 <%@ page import= "com.javaex.vo.UserVo" %>
 
 <%
+	request.setCharacterEncoding("UTF-8");
+
 	UserVo authUser = (UserVo)request.getAttribute("authUserVo");
 %>
 
@@ -80,7 +82,7 @@
 
 			<div id="user">
 				<div id="modifyForm">
-					<form action="/mysite2/user" method="get">
+					<form action="/mysite2/user" method="post">
 
 						<!-- 아이디 -->
 						<div class="form-group">
@@ -105,12 +107,21 @@
 						<div class="form-group">
 							<span class="form-text">성별</span> 
 							
-							<label for="rdo-male">남</label> 
-							<input type="radio" id="rdo-male" name="gender" value="M" > 
-							
-							<label for="rdo-female">여</label> 
-							<input type="radio" id="rdo-female" name="gender" value="F" > 
-
+							<!-- gender가 "F"면 "여"에 체크돼 있고 "M"면 "남"에 체크되도록 -->
+							<%if ("F".equals(authUser.getGender())) { %>
+								<label for="rdo-male">남</label> 
+								<input type="radio" id="rdo-male" name="gender" value="M" > 
+								
+								<label for="rdo-female">여</label> 
+								<input type="radio" id="rdo-female" name="gender" value="F" checked="checked" > 
+								
+							<%} else if ("M".equals(authUser.getGender())) { %>
+								<label for="rdo-male">남</label> 
+								<input type="radio" id="rdo-male" name="gender" value="M" checked="checked" > 
+								
+								<label for="rdo-female">여</label> 
+								<input type="radio" id="rdo-female" name="gender" value="F" > 
+							<%} %>
 						</div>
 
 						<!-- 버튼영역 -->

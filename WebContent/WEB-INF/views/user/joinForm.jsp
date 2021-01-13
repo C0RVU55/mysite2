@@ -3,6 +3,8 @@
 <%@ page import= "com.javaex.vo.UserVo" %>
 
 <%
+	request.setCharacterEncoding("UTF-8");
+
 	UserVo authUser = (UserVo)session.getAttribute("authUser");
 %>
 
@@ -80,7 +82,7 @@
 
 			<div id="user">
 				<div id="joinForm">
-					<form action="/mysite2/user" method="get"> <!-- 주소 주의 -->
+					<form action="/mysite2/user" method="post"> <!-- 주소 주의 -->
 
 						<!-- 아이디 -->
 						<div class="form-group">

@@ -24,8 +24,8 @@ public class UserController extends HttpServlet {
 		
 		
 		///////////////////////////////////////////
-		// 회원정보 수정할 때 성별 정해 놓는 거 못함
-		// post 테스트 안 해 봄
+		// 회원정보 수정할 때 성별 정해 놓는 거 못함 --> 완료
+		// post 테스트 안 해 봄 --> post 한글 깨짐
 		///////////////////////////////////////////
 		
 		
@@ -116,7 +116,7 @@ public class UserController extends HttpServlet {
 		} else if ("mform".equals(action)) {
 			//System.out.println("회원정보수정");
 			
-			//세션 request.getSession(false) --> 현재 세션 있으면 기존 세션을, 없으면 false를 return 
+			//세션 request.getSession(false) --> 현재 세션 있으면 기존 세션을, 없으면 null을 return 
 			HttpSession session = request.getSession(false);
 			
 			if(session == null) {
@@ -134,7 +134,7 @@ public class UserController extends HttpServlet {
 				//회원정보(UserVo)를 attribute
 				request.setAttribute("authUserVo", uVo);
 				
-				//modifyForm.jsp에 포워드
+				//포워드 --> modifyForm.jsp
 				WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 			}
 
