@@ -6,7 +6,9 @@
 	request.setCharacterEncoding("UTF-8");
 	
 	//UserVo authUser = (UserVo)session.getAttribute("authUser"); 
-	//로그인 로그아웃은 세션으로 썼으니까 일관적으로 하는 게 좋음(리퀘스트 변수명 바꾸기)
+	//로그인 로그아웃은 세션으로 썼으니까 일관적으로 하는 게 좋음 
+	//--> 원래 아래 attribute 변수명이랑 세션 변수명이랑 겹쳐서 바꿔야 했는데 헤더+내비 부분을 include로 묶어서 세션도 같이 따라가서 그대로 둠.
+	
 	UserVo authUser = (UserVo)request.getAttribute("uVo");
 %>
 
