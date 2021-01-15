@@ -71,7 +71,9 @@
 								<td>${bList.name }</td>
 								<td>${bList.hit }</td>
 								<td>${bList.regDate }</td>
-								<td><a href="/mysite2/bc?action=delete&no=${bList.no }">[삭제]</a></td> <!-- 로그인만 가능 / no추가하기 -->
+								<c:if test="${sessionScope.authUser != null }"> <!-- 로그인만 가능 / no추가하기 -->
+								<td><a href="/mysite2/bc?action=delete&no=${bList.no }">[삭제]</a></td> 
+								</c:if>
 							</tr>
 						</c:forEach>
 						
@@ -97,8 +99,8 @@
 						
 						<div class="clear"></div>
 					</div>
-					<c:if test="${sessionScope.authUser != null }">
-					<a id="btn_write" href="/mysite2/bc?action=wform">글쓰기</a> <!-- 로그인만 가능 -->
+					<c:if test="${sessionScope.authUser != null }">  <!-- 로그인만 가능 -->
+					<a id="btn_write" href="/mysite2/bc?action=wform">글쓰기</a>
 					</c:if>
 					
 				</div>
