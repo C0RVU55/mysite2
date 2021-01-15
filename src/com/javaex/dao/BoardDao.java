@@ -138,4 +138,47 @@ public class BoardDao {
 
 		return count;
 	}
+	
+	public BoardVo read(int no) { //*********게시글 정보 가져오기*********
+		
+		BoardVo bVo = null;
+		
+		getConnection();
+
+		try {
+			// SQL문 준비 / 바인딩 / 실행 
+			String query = "";
+			query += " SELECT  name, ";
+			query += "         hit, ";
+			query += "         to_char(reg_date, 'YYYY-MM-DD') reg_date, ";
+			query += "         title, ";
+			query += "         content ";
+			query += " FROM board b, users u ";
+			query += " where  b.user_no = u.no ";
+			query += " and b.no = ? ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+
+			// 결과 처리
+			while(rs.next()) {
+				String name = rs.getString("name");
+				int hit = rs.getInt("hit");
+				String regDate = rs.getString("reg_date");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				
+				bVo = new BoardVo(name, hit, regDate, title, content);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+
+		return bVo;
+	}
 }

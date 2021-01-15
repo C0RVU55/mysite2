@@ -24,7 +24,7 @@ public class BoardController extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		
-		//리스트(로그인상태에서만 삭제, 글쓰기, 수정 보임) / 등록 / 삭제(리스트 재요청) / 수정(로그인만 가능) / 보기(글수정버튼, 조회수+)
+		//리스트(로그인상태에서만 수정 보임) / 삭제(리스트 재요청) / 수정(로그인만 가능) / 보기(글수정버튼, 조회수+)
 		
 		if("list".equals(action)) {
 			//System.out.println("리스트");
@@ -40,7 +40,7 @@ public class BoardController extends HttpServlet {
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 		
 		} else if ("wform".equals(action)) {
-			System.out.println("글쓰기폼");
+			//System.out.println("글쓰기폼");
 			
 			//로그인 세션 받는 거 추가
 			HttpSession session = request.getSession();
@@ -53,7 +53,7 @@ public class BoardController extends HttpServlet {
 			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
 			
 		} else if ("write".equals(action)) {
-			System.out.println("글쓰기");
+			//System.out.println("글쓰기");
 			
 			//파라미터
 			String title = request.getParameter("title");
@@ -65,6 +65,7 @@ public class BoardController extends HttpServlet {
 			UserVo authUser = (UserVo)session.getAttribute("authUser");
 			int userNo = authUser.getNo();
 			
+			//vo --> dao
 			BoardVo bVo = new BoardVo(title, content, hit, userNo);
 			BoardDao bDao = new BoardDao();
 			bDao.write(bVo);			
@@ -72,10 +73,25 @@ public class BoardController extends HttpServlet {
 			//리다이렉트
 			WebUtil.redirect(request, response, "/mysite2/bc?action=list");
 			
+		} else if ("read".equals(action)) {
+			//System.out.println("보기");
+			
+			//파라미터
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			//dao --> 게시글 정보 가져오기
+			BoardDao bDao = new BoardDao();
+			BoardVo bVo = bDao.read(no);
+			
+			//어트리뷰트
+			request.setAttribute("bVo", bVo);
+			
+			//포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
+			
+		} else if ("delete".equals(action)) {
+			System.out.println("삭제");
 		}
-		
-		
-		
 		
 	}
 

@@ -54,3 +54,13 @@ values(seq_board_no.nextval, '게시판2', '게시판글2', 0, sysdate, 2);
 
 insert into board
 values(seq_board_no.nextval, '게시판3', '게시판글3', 0, sysdate, 3);
+
+--게시글 정보 가져오기
+SELECT  name,
+        hit,
+        to_char(reg_date, 'YYYY-MM-DD') reg_date,
+        title,
+        content
+FROM board b, users u
+where  b.user_no = u.no
+and b.no = 1;
