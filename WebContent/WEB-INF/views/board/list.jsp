@@ -45,7 +45,7 @@
 
 			<div id="board">
 				<div id="list">
-					<form action="" method="">
+					<form action="/mysite2/bc" method="get"> <!-- 검색에 쓰는 거 (만든다면 action추가) -->
 						<div class="form-group text-right">
 							<input type="text">
 							<button type="submit" id=btn_search>검색</button>
@@ -63,46 +63,18 @@
 							</tr>
 						</thead>
 						<tbody>
+						
+						<c:forEach items="${bList }" var="bList">
 							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
+								<td>${bList.no }</td>
+								<td class="text-left"><a href="/mysite2/bc?action=read&no=${bList.no }">${bList.title }</a></td>
+								<td>${bList.name }</td>
+								<td>${bList.hit }</td>
+								<td>${bList.regDate }</td>
+								<td><a href="/mysite2/bc?action=delete&no=${bList.no }">[삭제]</a></td> <!-- 로그인만 가능 / no추가하기 -->
 							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr class="last">
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
+						</c:forEach>
+						
 						</tbody>
 					</table>
 		
@@ -125,8 +97,10 @@
 						
 						<div class="clear"></div>
 					</div>
-					<a id="btn_write" href="">글쓰기</a>
-				
+					<c:if test="${sessionScope.authUser != null }">
+					<a id="btn_write" href="/mysite2/bc?action=wform">글쓰기</a> <!-- 로그인만 가능 -->
+					</c:if>
+					
 				</div>
 				<!-- //list -->
 			</div>
