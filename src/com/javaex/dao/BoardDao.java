@@ -149,11 +149,13 @@ public class BoardDao {
 		try {
 			// SQL문 준비 / 바인딩 / 실행 
 			String query = "";
-			query += " SELECT  name, ";
+			query += " SELECT  b.no, ";
+			query += "         name, ";
 			query += "         hit, ";
 			query += "         to_char(reg_date, 'YYYY-MM-DD') reg_date, ";
 			query += "         title, ";
-			query += "         content ";
+			query += "         content, ";
+			query += "         user_no ";
 			query += " FROM board b, users u ";
 			query += " where  b.user_no = u.no ";
 			query += " and b.no = ? ";
@@ -166,13 +168,15 @@ public class BoardDao {
 
 			// 결과 처리
 			while(rs.next()) {
+				int num = rs.getInt("no");
 				String name = rs.getString("name");
 				int hit = rs.getInt("hit");
 				String regDate = rs.getString("reg_date");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
+				int userNo = rs.getInt("user_no");
 				
-				bVo = new BoardVo(name, hit, regDate, title, content);
+				bVo = new BoardVo(num, name, hit, regDate, title, content, userNo);
 			}
 
 		} catch (SQLException e) {
@@ -210,6 +214,36 @@ public class BoardDao {
 
 			// 결과 처리
 			System.out.println(count + "건 삭제");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+
+		return count;
+	}
+	
+	public int modify(BoardVo bVo) { //*********수정*********
+		getConnection();
+
+		try {
+			// SQL문 준비 / 바인딩 / 실행 
+			String query = "";
+			query += " update board ";
+			query += " set title = ?, ";
+			query += "     content = ? ";
+			query += " where no = ? ";
+			
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setString(1, bVo.getTitle());
+			pstmt.setString(2, bVo.getContent());
+			pstmt.setInt(3, bVo.getNo());
+			
+			count = pstmt.executeUpdate();
+
+			// 결과 처리
+			System.out.println(count + "건 수정");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);

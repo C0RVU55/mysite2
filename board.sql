@@ -56,14 +56,16 @@ insert into board
 values(seq_board_no.nextval, '게시판3', '게시판글3', 0, sysdate, 3);
 
 --게시글 정보 가져오기
-SELECT  name,
+SELECT  b.no,
+        name,
         hit,
         to_char(reg_date, 'YYYY-MM-DD') reg_date,
         title,
-        content
+        content,
+        user_no
 FROM board b, users u
 where  b.user_no = u.no
-and b.no = 1;
+and b.no = 3;
 
 --조회수 증가
 update board
@@ -73,3 +75,9 @@ where no = 1;
 --삭제
 delete from board
 where no = 1;
+
+--수정
+update board
+set title = '수정',
+    content = 'ㅇㅇㅇ'
+where no = 7;

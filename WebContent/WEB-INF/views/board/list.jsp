@@ -73,8 +73,8 @@
 								<td>${bList.regDate }</td>
 								
 								<td>
-								<c:if test="${bList.userNo == sessionScope.authUser.no }"> <!-- 로그인 상태 + 본인 계정만 가능 -->
-								<a href="/mysite2/bc?action=delete&no=${bList.no }">[삭제]</a>
+								<c:if test="${bList.userNo == sessionScope.authUser.no }"> <!-- 로그인 상태 + 본인 계정만 가능(유저번호 비교) -->
+								<a href="/mysite2/bc?action=delete&no=${bList.no }">[삭제]</a> <!-- 파라미터 글번호 -->
 								</c:if>
 								</td> 
 							

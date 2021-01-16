@@ -77,7 +77,9 @@
 							</span>
 						</div>
 						
-						<a id="btn_modify" href="/mysite2/bc?action=mform">수정</a> <!-- 로그인한 사람만 가능하게 -->
+						<c:if test="${bVo.userNo == sessionScope.authUser.no }"> <!-- 로그인 상태 + 본인 계정만 가능(유저번호 비교) -->
+						<a id="btn_modify" href="/mysite2/bc?action=mform&no=${bVo.no }">수정</a> 
+						</c:if>
 						<a id="btn_modify" href="/mysite2/bc?action=list">목록</a>
 						
 					</form>

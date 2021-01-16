@@ -18,6 +18,14 @@ public class BoardVo {
 	public BoardVo() {
 	}
 
+	//수정
+	public BoardVo(int no, String title, String content) { 
+		this.no = no;
+		this.title = title;
+		this.content = content;
+	}
+	
+	//글리스트
 	public BoardVo(int no, String title, String name, int hit, String regDate, int userNo) {
 		this.no = no;
 		this.title = title;
@@ -27,27 +35,23 @@ public class BoardVo {
 		this.userNo = userNo;
 	}
 	
-	public BoardVo(int no, String title, String name, int hit, String regDate) {
-		this.no = no;
-		this.title = title;
-		this.name = name;
-		this.hit = hit;
-		this.regDate = regDate;
-	}
-	
-	public BoardVo(String title, String content, int hit, int userNo) {
+	//글쓰기
+	public BoardVo(String title, String content, int hit, int userNo) { 
 		this.title = title;
 		this.content = content;
 		this.hit = hit;
 		this.userNo = userNo;
 	}
 
-	public BoardVo(String name, int hit, String regDate, String title, String content) {
+	//글읽기
+	public BoardVo(int no, String name, int hit, String regDate, String title, String content, int userNo) {
+		this.no = no;
 		this.title = title;
 		this.content = content;
 		this.hit = hit;
 		this.regDate = regDate;
 		this.name = name;
+		this.userNo = userNo;
 	}
 	
 	public BoardVo(int no, String title, String content, int hit, String regDate, int userNo, String id,
