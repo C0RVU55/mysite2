@@ -71,9 +71,13 @@
 								<td>${bList.name }</td>
 								<td>${bList.hit }</td>
 								<td>${bList.regDate }</td>
-								<c:if test="${sessionScope.authUser != null }"> <!-- 로그인만 가능 / no추가하기 -->
-								<td><a href="/mysite2/bc?action=delete&no=${bList.no }">[삭제]</a></td> 
+								
+								<td>
+								<c:if test="${bList.userNo == sessionScope.authUser.no }"> <!-- 로그인 상태 + 본인 계정만 가능 -->
+								<a href="/mysite2/bc?action=delete&no=${bList.no }">[삭제]</a>
 								</c:if>
+								</td> 
+							
 							</tr>
 						</c:forEach>
 						

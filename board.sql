@@ -64,3 +64,12 @@ SELECT  name,
 FROM board b, users u
 where  b.user_no = u.no
 and b.no = 1;
+
+--조회수 증가
+update board
+set hit = hit + 1
+where no = 1;
+
+--삭제
+delete from board
+where no = 1;

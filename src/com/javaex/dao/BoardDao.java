@@ -96,8 +96,9 @@ public class BoardDao {
 				String name = rs.getString("name");
 				int hit = rs.getInt("hit");
 				String regDate = rs.getString("reg_date");
+				int userNo = rs.getInt("user_no");
 
-				BoardVo bVo = new BoardVo(no, title, name, hit, regDate);
+				BoardVo bVo = new BoardVo(no, title, name, hit, regDate, userNo);
 				bList.add(bVo);
 			}
 
@@ -124,7 +125,7 @@ public class BoardDao {
 			pstmt.setString(1, bVo.getTitle());
 			pstmt.setString(2, bVo.getContent());
 			pstmt.setInt(3, bVo.getHit());
-			pstmt.setInt(4, bVo.getUserNo());
+			pstmt.setInt(4, bVo.getUserNo()); //이걸 리스트로 뺄 순 없나
 			
 			count = pstmt.executeUpdate();
 
@@ -180,5 +181,41 @@ public class BoardDao {
 		close();
 
 		return bVo;
+	}
+	
+	public void hitPlus() { //*********조회수 증가*********
+		
+		/*
+		 * update board 
+		 * set hit = hit + 1 
+		 * where no = 1;
+		 */
+	}
+	
+	public int delete(int no) { //*********삭제*********
+
+		getConnection();
+
+		try {
+			// SQL문 준비 / 바인딩 / 실행 
+			String query = "";
+			query += " delete from board ";
+			query += " where no = ? ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setInt(1, no);
+			
+			count = pstmt.executeUpdate();
+
+			// 결과 처리
+			System.out.println(count + "건 삭제");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+
+		return count;
 	}
 }

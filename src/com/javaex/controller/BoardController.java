@@ -91,6 +91,23 @@ public class BoardController extends HttpServlet {
 			
 		} else if ("delete".equals(action)) {
 			System.out.println("삭제");
+			
+			//파라미터
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			//dao
+			BoardDao bDao = new BoardDao();
+			bDao.delete(no);
+			
+			//리다이렉트
+			WebUtil.redirect(request, response, "/mysite2/bc?action=list");
+			
+		} else if ("mform".equals(action)) {
+			System.out.println("수정폼");
+		} else if ("modify".equals(action)) {
+			System.out.println("수정");
+		} else if ("hit".equals(action)) {
+			System.out.println("조회수 증가");
 		}
 		
 	}
