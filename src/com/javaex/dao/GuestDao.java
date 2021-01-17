@@ -78,6 +78,7 @@ public class GuestDao {
 			query += "         content, ";
 			query += "         to_char(reg_date, 'YYYY-MM-DD HH24:MI:SS') reg_date ";
 			query += " FROM guestbook ";
+			query += " order by no desc ";
 
 			pstmt = conn.prepareStatement(query);
 

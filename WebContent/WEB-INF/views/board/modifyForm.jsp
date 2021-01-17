@@ -75,7 +75,7 @@
 					
 						<!-- 내용 (원래 내용이 안 나와 있음...)-->
 						<div class="form-group">
-							<textarea id="txt-content" name="content" value="${bVo.content}"></textarea>
+							<textarea id="txt-content" name="content">${bVo.content}</textarea>
 						</div>
 						
 						<a id="btn_cancel" href="/mysite2/bc?action=read&no=${bVo.no}">취소</a>

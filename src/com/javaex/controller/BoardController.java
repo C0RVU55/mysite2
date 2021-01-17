@@ -24,8 +24,6 @@ public class BoardController extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		
-		//리스트(로그인상태에서만 수정 보임) / 삭제(리스트 재요청) / 수정(로그인만 가능) / 보기(글수정버튼, 조회수+)
-		
 		if("list".equals(action)) {
 			//System.out.println("리스트");
 			
@@ -77,8 +75,10 @@ public class BoardController extends HttpServlet {
 			//파라미터
 			int no = Integer.parseInt(request.getParameter("no"));
 			
-			//dao --> 게시글 정보 가져오기
+			//dao --> 조회수 증가시킨 다음 게시글 정보 가져오기
 			BoardDao bDao = new BoardDao();
+			
+			bDao.hitPlus(no);
 			BoardVo bVo = bDao.read(no);
 			
 			//어트리뷰트
@@ -121,7 +121,7 @@ public class BoardController extends HttpServlet {
 			WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");
 			
 		} else if ("modify".equals(action)) {
-			System.out.println("수정");
+			//System.out.println("수정");
 			
 			//파라미터 4개값 받음
 			int no = Integer.parseInt(request.getParameter("no"));
@@ -136,10 +136,7 @@ public class BoardController extends HttpServlet {
 			//리다이렉트
 			WebUtil.redirect(request, response, "/mysite2/bc?action=list");
 			
-						
-		} else if ("hit".equals(action)) {
-			System.out.println("조회수 증가");
-		}
+		} 
 		
 	}
 

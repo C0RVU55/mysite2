@@ -152,7 +152,7 @@ public class BoardDao {
 			query += " SELECT  b.no, ";
 			query += "         name, ";
 			query += "         hit, ";
-			query += "         to_char(reg_date, 'YYYY-MM-DD') reg_date, ";
+			query += "         to_char(reg_date, 'YYYY-MM-DD HH24:MI') reg_date, ";
 			query += "         title, ";
 			query += "         content, ";
 			query += "         user_no ";
@@ -187,13 +187,31 @@ public class BoardDao {
 		return bVo;
 	}
 	
-	public void hitPlus() { //*********조회수 증가*********
-		
-		/*
-		 * update board 
-		 * set hit = hit + 1 
-		 * where no = 1;
-		 */
+	public int hitPlus(int no) { //*********조회수 증가*********
+		getConnection();
+
+		try {
+			// SQL문 준비 / 바인딩 / 실행 
+			String query = "";
+			query += " update board ";
+			query += " set hit = hit + 1  ";
+			query += " where no = ? ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setInt(1, no);
+			
+			count = pstmt.executeUpdate();
+
+			// 결과 처리
+			System.out.println(count + "건 조회수 증가");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+
+		return count;
 	}
 	
 	public int delete(int no) { //*********삭제*********
