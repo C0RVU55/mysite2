@@ -33,7 +33,7 @@ public class BoardController extends HttpServlet {
 			
 			//어트리뷰트
 			request.setAttribute("bList", bList);
-			
+				
 			//포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 		
@@ -136,7 +136,24 @@ public class BoardController extends HttpServlet {
 			//리다이렉트
 			WebUtil.redirect(request, response, "/mysite2/bc?action=list");
 			
-		} 
+		} else if("search".equals(action)) { //리스트 출력이랑 겹치는데 같이 쓸 방법없는지
+			//System.out.println("검색");
+			
+			List<BoardVo> bList = new ArrayList<BoardVo>();
+			BoardDao bDao = new BoardDao();
+			bList = bDao.getList();
+			
+			//파라미터
+			String str = request.getParameter("keyword");
+			bList = bDao.getList(str);
+			
+			//어트리뷰트
+			request.setAttribute("bList", bList);
+				
+			//포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
+			
+		}
 		
 	}
 

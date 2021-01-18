@@ -45,10 +45,12 @@
 
 			<div id="board">
 				<div id="list">
-					<form action="/mysite2/bc" method="get"> <!-- 검색에 쓰는 거 (만든다면 action추가) -->
+					<form action="/mysite2/bc" method="get"> <!-- 검색 기능 -->
 						<div class="form-group text-right">
-							<input type="text">
+							<input type="text" name="keyword">
 							<button type="submit" id=btn_search>검색</button>
+							<!-- action -->
+							<input type="text" name="action" value="search">
 						</div>
 					</form>
 					<table >

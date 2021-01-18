@@ -270,4 +270,55 @@ public class BoardDao {
 
 		return count;
 	}
+	
+	public List<BoardVo> getList(String str) { //*********검색(리스트 출력 메소드오버로딩)*********  
+		List<BoardVo> bList = new ArrayList<BoardVo>();
+
+		getConnection();
+
+		try {
+			// SQL문 준비 / 바인딩 / 실행 
+			String query = "";
+			query += " SELECT  b.no, ";
+			query += "         title, ";
+			query += "         content, ";
+			query += "         hit, ";
+			query += "         to_char(reg_date, 'YYYY-MM-DD HH24:MI') reg_date, ";
+			query += "         name, ";
+			query += "         user_no ";
+			query += " FROM board b left join users u ";
+			query += " on b.user_no = u.no ";
+			query += " where title like ? ";
+			query += " or content like ? ";
+			query += " or name like ? ";
+			query += " order by b.no desc ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setString(1, "%" + str + "%");
+			pstmt.setString(2, "%" + str + "%");
+			pstmt.setString(3, "%" + str + "%");
+
+			rs = pstmt.executeQuery();
+
+			// 결과 처리
+			while (rs.next()) {
+				int no = rs.getInt("no");
+				String title = rs.getString("title");
+				String name = rs.getString("name");
+				int hit = rs.getInt("hit");
+				String regDate = rs.getString("reg_date");
+				int userNo = rs.getInt("user_no");
+
+				BoardVo bVo = new BoardVo(no, title, name, hit, regDate, userNo);
+				bList.add(bVo);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+
+		return bList;
+	}
 }
