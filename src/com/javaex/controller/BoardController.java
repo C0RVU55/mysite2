@@ -17,10 +17,15 @@ import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
 import com.javaex.vo.UserVo;
 
+//로그인 상태에서만 할 수 있는 실행문은 pk로 비교하는 게 안전함
+//많이 쓰이는 list를 action if문에서 else에 넣으면 쓰기 편함 (리스트 출력과 검색을 같이 넣을 수 있을 것)
+
 @WebServlet("/bc")
 public class BoardController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//포스트 한글깨짐 방지 코드
+		request.setCharacterEncoding("UTF-8");
 		
 		String action = request.getParameter("action");
 		
@@ -72,13 +77,23 @@ public class BoardController extends HttpServlet {
 		} else if ("read".equals(action)) {
 			//System.out.println("보기");
 			
+			//본인이 쓴 글에는 조회수 안 올라가게 하기 위해 세션 부름
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			
 			//파라미터
 			int no = Integer.parseInt(request.getParameter("no"));
 			
-			//dao --> 조회수 증가시킨 다음 게시글 정보 가져오기
+			//dao --> 조회수 증가시킨 다음 게시글 정보 가져오기 (2개의 쿼리문 hitPlus, read가 작동하지만 작업은 하나인 거)
 			BoardDao bDao = new BoardDao();
 			
-			bDao.hitPlus(no);
+			//로그인계정 본인 아닐 때만 조회수 오르는 조건
+			if (authUser == null || authUser.getNo() != bDao.read(no).getUserNo() ) {
+				
+				bDao.hitPlus(no);
+			
+			}
+			
 			BoardVo bVo = bDao.read(no);
 			
 			//어트리뷰트

@@ -2,17 +2,15 @@ package com.javaex.vo;
 
 public class BoardVo {
 
-	// 필드
+	// 필드 (필요한 것만 넣어야 되고 비밀번호 같은 건 보안상 안 넣는 게 좋음)
 	private int no;
 	private String title;
 	private String content;
 	private int hit;
 	private String regDate;
 	private int userNo;
-	private String id;
-	private String password;
 	private String name;
-	private String gender;
+
 
 	// 생성자
 	public BoardVo() {
@@ -52,20 +50,6 @@ public class BoardVo {
 		this.regDate = regDate;
 		this.name = name;
 		this.userNo = userNo;
-	}
-	
-	public BoardVo(int no, String title, String content, int hit, String regDate, int userNo, String id,
-			String password, String name, String gender) {
-		this.no = no;
-		this.title = title;
-		this.content = content;
-		this.hit = hit;
-		this.regDate = regDate;
-		this.userNo = userNo;
-		this.id = id;
-		this.password = password;
-		this.name = name;
-		this.gender = gender;
 	}
 
 	// 메소드 겟셋
@@ -117,22 +101,6 @@ public class BoardVo {
 		this.userNo = userNo;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -141,20 +109,11 @@ public class BoardVo {
 		this.name = name;
 	}
 
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	// 메소드 일반
+	//메소드 일반
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", title=" + title + ", content=" + content + ", hit=" + hit + ", regDate="
-				+ regDate + ", userNo=" + userNo + ", id=" + id + ", password=" + password + ", name=" + name
-				+ ", gender=" + gender + "]";
+				+ regDate + ", userNo=" + userNo + ", name=" + name + "]";
 	}
-
+	
 }

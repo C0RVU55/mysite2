@@ -66,17 +66,18 @@
 						</thead>
 						<tbody>
 						
-						<c:forEach items="${bList }" var="bList">
+						<!-- 리스트에서 데이터(주소)를 하나 꺼내 쓰는 거니까 var이름을 list보단 vo라고 쓰는 게 좋음. -->
+						<c:forEach items="${bList }" var="vo">
 							<tr>
-								<td>${bList.no }</td>
-								<td class="text-left"><a href="/mysite2/bc?action=read&no=${bList.no }">${bList.title }</a></td>
-								<td>${bList.name }</td>
-								<td>${bList.hit }</td>
-								<td>${bList.regDate }</td>
+								<td>${vo.no }</td>
+								<td class="text-left"><a href="/mysite2/bc?action=read&no=${vo.no }">${vo.title }</a></td>
+								<td>${vo.name }</td>
+								<td>${vo.hit }</td>
+								<td>${vo.regDate }</td>
 								
 								<td>
-								<c:if test="${bList.userNo == sessionScope.authUser.no }"> <!-- 로그인 상태 + 본인 계정만 가능(유저번호 비교) -->
-								<a href="/mysite2/bc?action=delete&no=${bList.no }">[삭제]</a> <!-- 파라미터 글번호 -->
+								<c:if test="${vo.userNo == sessionScope.authUser.no }"> <!-- 로그인 상태 + 본인 계정만 가능(유저번호 비교) -->
+								<a href="/mysite2/bc?action=delete&no=${vo.no }">[삭제]</a> <!-- 파라미터 글번호 -->
 								</c:if>
 								</td> 
 							
