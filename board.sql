@@ -81,3 +81,17 @@ update board
 set title = '수정',
     content = 'ㅇㅇㅇ'
 where no = 7;
+
+--검색
+SELECT  b.no,
+        title,
+        name,
+        hit,
+        to_char(reg_date, 'YYYY-MM-DD') reg_date,
+        content
+FROM board b left join users u
+on b.user_no = u.no
+where title like '%1%'
+or content like '%내%'
+or name like '%1%'
+order by b.no desc;
